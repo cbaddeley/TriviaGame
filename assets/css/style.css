@@ -1,0 +1,132 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-image: url("../images/black_linen_v2_@2X.png");
+}
+
+.container {
+	width: 960px;
+	margin: 20px auto;
+	text-align: center;
+	background-image: url("../images/grayBackground.jpg");
+	border: 2px solid #1E1E1F;
+	position: relative;
+	height: 593px;
+}
+
+#questions {
+	width: 956px;
+	border: 1px solid #1E1E1F;
+	width: 916px;
+	height: 481px;
+	margin: 0 20px 20px 20px;
+	background-color: rgba(203, 201, 207, 0.2);
+	visibility: hidden;
+}
+
+#questions button {
+	position: absolute;
+}
+
+#buttonAnswerOne {
+	bottom: 105px;
+	left: 41px;
+}
+
+#buttonAnswerTwo {
+	bottom: 105px;
+	right: 41px;
+}
+
+#buttonAnswerThree {
+	bottom: 41px;
+	left: 41px;
+}
+
+#buttonAnswerFour {
+	bottom: 41px;
+	right: 41px;
+}
+
+h1 {
+	margin: 10px 0;
+	padding: 10px 0;
+	font-size: 48px;
+	text-shadow: 2px 2px #424143;
+	background-color: rgba(203, 201, 207, 0.1);
+}
+
+button {
+	width: 425px;
+	height: 44px;
+	font-size: 24px;
+	transition: all 0.3s ease 0s;
+	background-image: url("../images/white_sand.png");
+	border: 1px solid #1E1E1F;
+	color: #1E1E1F;
+	outline: none;
+}
+
+button:hover {
+	background-image: url("../images/black-Linen.png");
+	border-color: #67666A;
+	color: #CBC9CF;
+}
+
+#startScreen {
+	border: 1px solid #1E1E1F;
+	width: 916px;
+	height: 481px;
+	margin: 0 20px 20px 20px;
+	z-index: 5;
+	background-color: rgba(203, 201, 207, 0.2);
+	position: absolute;
+}
+
+#startButton {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-top: -22px;
+	margin-left: -224px;
+}
+
+#questionImage {
+	height: 313px;
+    width: 425px;
+    border: 1px solid #1E1E1F;
+    padding: 5px;
+    position: absolute;
+    top: 109px;
+    left: 41px;
+    background-image: url("../images/white_sand.png");
+}
+
+#questionImage img {
+	height: 301px;
+	width: 413px;
+}
+
+#timeRemaining {
+	position: absolute;
+	right: 41px;
+	top: 109px;
+	width: 300px;
+	font-size: 24px;
+	text-align: left;
+	color: black;
+}
+
+#questionText {
+	position: absolute;
+    right: 41px;
+    width: 425px;
+    bottom: 169px;
+    height: 166px;
+    font-size: 18px;
+    line-height: 27px;
+    text-align: justify;
+    color: black;
+}
