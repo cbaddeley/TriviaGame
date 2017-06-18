@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Trivia Game</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
@@ -28,21 +29,35 @@
 
 		</div>
 
+		<div id="resultText"></div>
+
 		<div id="questionText"></div>
 
-		<button id="buttonAnswerOne"></button>
+		<button id="buttonAnswerOne" type="option" ref="0"></button>
 
-		<button id="buttonAnswerTwo">Button Two</button>
+		<button id="buttonAnswerTwo" type="option" ref="1"></button>
 
-		<button id="buttonAnswerThree">Button Three</button>
+		<button id="buttonAnswerThree" type="option" ref="2"></button>
 
-		<button id="buttonAnswerFour">Button Four</button>
+		<button id="buttonAnswerFour" type="option" ref="3"></button>
 
 	</div>
 
 	<div id="endScreen">
 		
-		
+		<h2>Game Over</h2>
+
+		<h3>There are no more questions.</h3>
+
+		<h4>Final score is:</h4>
+
+		<p id="correctAnswers">Correct Answers: </p>
+
+		<p id="wrongAnswers">Incorrect Answers: </p>
+
+		<p id="timedOutAnswers">Unanswered questions: </p>
+
+		<button id="endButton">Click here to play again!</button>
 
 	</div>
 

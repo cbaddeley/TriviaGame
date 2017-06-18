@@ -16,7 +16,11 @@ var deathValley = new questionCreation("Death Valley", "This park is the hottest
 var craterLake = new questionCreation("Crater Lake", "This park lies in the caldera of an ancient volcano called Mount Mazama that collapsed 7,700 years ago. It is the deepest lake in the United States and is noted for its vivid blue color and water clarity.", "assets/images/craterLake.jpg");
 
 var questionArray = [everglades, smoky, yellowstone, voyageurs, sequoia, pinnacles,mesaVerde, katmai, deathValley, craterLake];
-
+var playThrough = [];
+var pickedQuestionObject;
+var correctAnswers = 0;
+var wrongAnswers = 0;
+var timedOutAnswers = 0;
 var intervalId;
 var clockRunning = false;
 var timer = {
@@ -42,8 +46,19 @@ var timer = {
 
   count: function() {
     timer.time--;
-    if (timer.time < 0) {
-      timer.stop;
+    if (timer.time === 0) {
+      $("#timeRemaining").text("Time's up!");
+      timer.stop();
+      $("#resultText").text("I'm sorry. You ran out of time. The correct answer is: " + pickedQuestionObject.name);
+      timedOutAnswers++;
+      if (timedOutAnswers + correctAnswers + wrongAnswers === questionArray.length) {
+        endGame();
+      } else {
+          setTimeout(clearResult, 3000);
+          setTimeout(questionCreator, 3000);
+          setTimeout(timer.reset, 3000);
+          setTimeout(timer.start, 3000);
+        }
     } else if (timer.time === 1) {
       $("#timeRemaining").text("Time Remaining: " + timer.time + " Second");
     } else {
@@ -52,17 +67,121 @@ var timer = {
   },
 };
 
+function questionCreator() {
+  var picked = false;
+  while (!picked) {
+    var pickedQuestionCounter = 0;
+    var pickedQuestionNumber = Math.floor(Math.random() * questionArray.length);
+    pickedQuestionObject = questionArray[pickedQuestionNumber];
+    for (i = 0; i <= playThrough.length; i++) {
+      if (pickedQuestionObject == playThrough[i]) {
+        break;
+      } else if (pickedQuestionObject !== playThrough[i]) {
+        pickedQuestionCounter++;
+      }
+    }
+    if (pickedQuestionCounter >= playThrough.length) {
+      generateButtons(pickedQuestionObject);
+      generateImg(pickedQuestionObject);
+      generateQuestionText(pickedQuestionObject);
+      picked = true;
+      playThrough.push(pickedQuestionObject);
+    }
+    if (playThrough.length == questionArray.length) {
+      picked = true;
+    }
+  }
+};
+
+function generateImg(question) {
+  $("#questionImage").html("<img src='" + question.img + "'>");
+};
+
+function generateQuestionText(text) {
+  $("#questionText").text(text.question);
+};
+
+function generateButtons(question) {
+  var answerButton = Math.floor(Math.random() * 4);
+  var buttonPlacement = false;
+  var buttonArray = [" ", " ", " ", " "];
+  var buttonCounter = 0;
+  buttonArray[answerButton] = question.name;
+  while(!buttonPlacement) {
+    var wrongAnswer = Math.floor(Math.random() * questionArray.length);
+    var wrongAnswerName = questionArray[wrongAnswer].name;
+    for (i = 0; i < buttonArray.length; i++) {
+      if (wrongAnswerName === buttonArray[i] || wrongAnswerName === question.name) {
+        break;
+      } 
+      if (buttonArray[i] === " ") {
+        buttonArray[i] = wrongAnswerName;
+        buttonCounter++;
+        break;
+      }
+    }
+    if (buttonCounter === 3) {
+      buttonPlacement = true;
+    }    
+  }
+  for (i = 0; i < buttonArray.length; i++) {
+    $("button[ref = '" + i + "']").text(buttonArray[i]);
+  }
+  $("button[ref = '" + answerButton + "']").attr("answer", true);
+};
+
+function clearResult() {
+  $("#resultText").empty();
+  $("button").prop('disabled', false);
+  $("button").each(function() {
+    $(this).removeAttr('answer');
+  });
+}
+
 $("#startButton").click(function() {
   $("#startScreen").css("display", "none");
   $("#questions").css("visibility", "visible");
+  timer.start();
+  questionCreator();
 });
 
-var pickedQuestion = Math.floor(Math.random() * questionArray.length);
-var pickedQuestionButton = Math.floor
+$("button[type = 'option'").click(function() {
+  timer.stop();
+  $("button").prop('disabled', true);
+  if (this.getAttribute("answer")) {
+    $("#resultText").text("That's correct!!");
+    correctAnswers++;
+  } else {
+    $("#resultText").text("I'm sorry. The correct answer is: " + pickedQuestionObject.name);
+    wrongAnswers++;
+  }
+  if (timedOutAnswers + correctAnswers + wrongAnswers === questionArray.length) {
+        setTimeout(endGame, 3000);
+     } else {
+        setTimeout(clearResult, 3000);
+        setTimeout(questionCreator, 3000);
+        setTimeout(timer.reset, 3000);
+        setTimeout(timer.start, 3000);
+      }
+});
 
-$("#buttonAnswerOne").html(katmai.name);
-$("#questionImage").html("<img src='" + everglades.img + "'>");
-$("#questionText").text(katmai.question);
+function endGame() {
+  clearResult();
+  timer.reset();
+  $("#questions").css("visibility", "hidden");
+  $("#endScreen").css("display", "block");
+  $("#correctAnswers").append(correctAnswers);
+  $("#wrongAnswers").append(wrongAnswers);
+  $("#timedOutAnswers").append(timedOutAnswers);
+};
 
-
-
+$("#endButton").click(function() {
+  playThrough = [];
+  correctAnswers = 0;
+  wrongAnswers = 0;
+  timedOutAnswers = 0;
+  $("#endScreen").css("display", "none");
+  $("#questions").css("visibility", "visible");
+  timer.start();
+  questionCreator();
+})
