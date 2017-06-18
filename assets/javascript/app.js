@@ -52,7 +52,7 @@ var timer = {
       $("#resultText").text("I'm sorry. You ran out of time. The correct answer is: " + pickedQuestionObject.name);
       timedOutAnswers++;
       if (timedOutAnswers + correctAnswers + wrongAnswers === questionArray.length) {
-        endGame();
+        setTimeout(endGame,3000);
       } else {
           setTimeout(clearResult, 3000);
           setTimeout(questionCreator, 3000);
